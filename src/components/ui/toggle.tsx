@@ -4,16 +4,23 @@ import { splitProps } from "solid-js";
 import { cn } from "~/lib/styles";
 
 interface ToggleProps extends Omit<ComponentProps<"button">, "onClick"> {
-  onChange?: Setter<boolean>;
+  onCheckedChange?: Setter<boolean>;
   checked?: Accessor<boolean>;
+  defaultChecked?: boolean;
 }
 
 export function Toggle(props: ToggleProps) {
-  const [{ checked, onChange }, others] = splitProps(props, ["class", "checked", "onChange"]);
+  const [{ checked, onCheckedChange, defaultChecked }, others] = splitProps(props, [
+    "class",
+    "checked",
+    "onCheckedChange",
+    "defaultChecked",
+  ]);
   const [isChecked, setIsChecked] = createUncontrolledSignal({
+    defaultValue: defaultChecked,
     finalValue: false,
+    setter: onCheckedChange,
     getter: checked,
-    setter: onChange,
   });
 
   return (
