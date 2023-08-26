@@ -11,6 +11,6 @@ const labelVariants = cva(
 interface LabelProps extends ComponentProps<"label">, VariantProps<typeof labelVariants> {}
 
 export function Label(props: LabelProps) {
-  const [className, others] = splitProps(props, ["class"]);
-  return <label class={cn(labelVariants({ className }))} {...others} />;
+  const [, others] = splitProps(props, ["class"]);
+  return <label class={cn(labelVariants({ class: props.class }))} {...others} />;
 }

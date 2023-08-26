@@ -1,4 +1,5 @@
-import type { Accessor, Component, ComponentProps, Ref } from "solid-js";
+import type { Accessor, ComponentProps, Ref } from "solid-js";
+import type { Primitive } from "./types";
 import { createMemo, createSignal, splitProps } from "solid-js";
 import { cn } from "~/lib/styles";
 
@@ -26,11 +27,11 @@ type CreateCarouselOptions = {
   slideWidth: number;
 };
 
-type CarouselReturn = [
+type CreateCarouselReturnType = [
   {
-    Root: Component<ComponentProps<"div">>;
-    Slider: Component<ComponentProps<"ul">>;
-    Slide: Component<ComponentProps<"div">>;
+    Root: Primitive<"div">;
+    Slider: Primitive<"ul">;
+    Slide: Primitive<"div">;
   },
   {
     currentSlide: Accessor<number>;
@@ -56,7 +57,7 @@ type CarouselReturn = [
  * </Carousel.Root>
  *
  */
-export function createCarousel(options?: CreateCarouselOptions): CarouselReturn {
+export function createCarousel(options?: CreateCarouselOptions): CreateCarouselReturnType {
   let sliderRef: Ref<HTMLUListElement> | undefined;
 
   const { slideMargin, initialPosition, slideWidth, slideHeight }: CreateCarouselOptions =
