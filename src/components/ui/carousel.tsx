@@ -129,14 +129,15 @@ function Root(props: CarouselRootProps) {
 function Slider(props: ComponentProps<"ul">) {
   const [, others] = splitProps(props, ["class", "style", "onScroll", "ref"]);
   const { slideMargin, slideHeight, handleScroll, setRef } = useCarousel();
+  const MAGIC_OFFSET = 40;
   return (
     <ul
       class={cn("flex overflow-x-auto snap-x snap-mandatory", props.class)}
       ref={setRef}
       style={{
-        height: `${slideHeight() + 40}px`,
+        height: `${slideHeight() + MAGIC_OFFSET}px`,
         gap: `${slideMargin()}px`,
-        "padding-bottom": `${40}px`,
+        "padding-bottom": `${MAGIC_OFFSET}px`,
       }}
       onScroll={handleScroll}
       {...others}
