@@ -102,7 +102,7 @@ const CarouselContext = createContext<CarouselContextObj>();
 
 function useCarousel() {
   const context = useContext(CarouselContext);
-  if (!context) throw new Error("Carousel must be used within CarouselRoot");
+  if (!context) throw new Error("Carousel must be used within Carousel.Root");
   return context;
 }
 
