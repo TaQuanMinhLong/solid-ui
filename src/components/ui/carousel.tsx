@@ -50,7 +50,7 @@ function createCarousel({
   slideMargin: _slideMargin = 24,
   slideWidth: _slideWidth = 400,
   slideHeight: _slideHeight = 500,
-}: CreateCarouselOptions) {
+}: CreateCarouselOptions = {}) {
   const [ref, setRef] = createSignal<HTMLUListElement>();
   const [sliderPosition, setSliderPosition] = createSignal(initialPosition);
   const slideWidth = createMemo(() =>
