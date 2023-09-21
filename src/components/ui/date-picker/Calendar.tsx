@@ -109,7 +109,7 @@ type DayProps = {
 };
 
 function Day(props: DayProps) {
-  const { date, setDate, month, setMonth } = useDateContext();
+  const { date, setDate, month } = useDateContext();
 
   const isSelected = () => isSameDay(props.day, date());
   const isToday = () => isSameDay(props.day, new Date());
@@ -122,20 +122,19 @@ function Day(props: DayProps) {
     >
       <Button
         onClick={() => {
-          setMonth(props.day);
           setDate(props.day);
         }}
         aria-selected={isSelected() || undefined}
         variant="ghost"
         class={cn(
-          "h-9 w-9 p-0 font-normal",
+          "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
+          { "text-muted-foreground opacity-50": isOutside() },
           { "text-red-500 hover:text-red-400": isWeekend(props.day) },
           { "bg-accent text-accent-foreground": isToday() },
           {
             "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground":
               isSelected(),
-          },
-          { "text-muted-foreground opacity-50": isOutside() }
+          }
         )}
         role="gridcell"
         tabIndex={-1}
