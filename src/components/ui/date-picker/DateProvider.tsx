@@ -12,6 +12,8 @@ import { createContext, splitProps, useContext } from "solid-js";
 type DateContextObj = {
   date: Accessor<Date>;
   setDate: Setter<Date>;
+  month: Accessor<Date>;
+  setMonth: Setter<Date>;
   nextMonth: () => void;
   prevMonth: () => void;
   getDaysOfMonth: () => Date[][];
@@ -21,6 +23,8 @@ type DateContextProps = {
   date: Accessor<Date>;
   setDate: Setter<Date>;
   children: JSXElement;
+  month: Accessor<Date>;
+  setMonth: Setter<Date>;
 };
 
 export const WEEKDAYS = [
@@ -36,20 +40,25 @@ export const WEEKDAYS = [
 export const DateContext = createContext<DateContextObj>();
 
 export function DateProvider(props: DateContextProps) {
-  const [{ date, setDate }] = splitProps(props, ["date", "setDate"]);
+  const [{ date, setDate, month, setMonth }] = splitProps(props, [
+    "date",
+    "setDate",
+    "month",
+    "setMonth",
+  ]);
 
   function nextMonth() {
-    setDate(addMonths(date(), 1));
+    setMonth(addMonths(month(), 1));
   }
 
   function prevMonth() {
-    setDate(subMonths(date(), 1));
+    setMonth(subMonths(month(), 1));
   }
 
   function getDaysOfMonth() {
     const daysOfMonth: Date[][] = [];
     const WEEK_DAYS = 7;
-    const currentDate = date();
+    const currentDate = month();
 
     const totalWeeks = getWeeksInMonth(currentDate, { weekStartsOn: 1 });
     const monthStart = startOfMonth(currentDate);
@@ -69,7 +78,9 @@ export function DateProvider(props: DateContextProps) {
   }
 
   return (
-    <DateContext.Provider value={{ date, setDate, nextMonth, prevMonth, getDaysOfMonth }}>
+    <DateContext.Provider
+      value={{ date, setDate, nextMonth, prevMonth, getDaysOfMonth, month, setMonth }}
+    >
       {props.children}
     </DateContext.Provider>
   );

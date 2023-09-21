@@ -2,7 +2,7 @@ import type { Accessor, Setter } from "solid-js";
 import { DateProvider, WEEKDAYS, useDateContext } from "./DateProvider";
 import { IconChevron } from "~/components/icons";
 import { createUncontrolledSignal } from "~/hooks";
-import { For } from "solid-js";
+import { For, createSignal } from "solid-js";
 import { Button } from "~/components/ui/button";
 import { format, isSameDay, isSameMonth, isWeekend } from "date-fns";
 import { cn } from "~/lib/styles";
@@ -21,8 +21,10 @@ function Calendar(props: CalendarProps) {
     setter: props.setDate,
   });
 
+  const [month, setMonth] = createSignal(date());
+
   return (
-    <DateProvider date={date} setDate={setDate}>
+    <DateProvider {...{ date, setDate, month, setMonth }}>
       <div class="border border-input rounded-md p-3">
         <CalendarHeader />
         <CalendarMonth />
@@ -32,11 +34,11 @@ function Calendar(props: CalendarProps) {
 }
 
 function CalendarHeader() {
-  const { date, nextMonth, prevMonth } = useDateContext();
+  const { month, nextMonth, prevMonth } = useDateContext();
   return (
     <div class="flex justify-center pt-1 relative items-center">
       <div class="text-sm font-medium" aria-live="polite" role="presentation">
-        {format(date(), "MMMM yyyy")}
+        {format(month(), "MMMM yyyy")}
       </div>
       <div class="space-x-1 flex items-center">
         <Button
@@ -107,11 +109,11 @@ type DayProps = {
 };
 
 function Day(props: DayProps) {
-  const { date, setDate } = useDateContext();
+  const { date, setDate, month, setMonth } = useDateContext();
 
   const isSelected = () => isSameDay(props.day, date());
   const isToday = () => isSameDay(props.day, new Date());
-  const isOutside = () => !isSameMonth(props.day, date());
+  const isOutside = () => !isSameMonth(props.day, month());
 
   return (
     <td
@@ -119,7 +121,10 @@ function Day(props: DayProps) {
       role="presentation"
     >
       <Button
-        onClick={() => setDate(props.day)}
+        onClick={() => {
+          setMonth(props.day);
+          setDate(props.day);
+        }}
         aria-selected={isSelected() || undefined}
         variant="ghost"
         class={cn(
