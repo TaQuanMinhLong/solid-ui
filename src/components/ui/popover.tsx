@@ -24,14 +24,16 @@ function usePopover() {
 }
 
 type CreatePopoverOptions = {
-  id?: string;
+  popoverId?: string;
+  triggerId?: string;
   offset?: number;
   placement?: Placement;
 };
 
 type PopoverStore = {
-  id: string;
+  popoverId: string;
   offset: number;
+  triggerId: string;
   state: PopoverState;
   placement: Placement;
   triggerRef: HTMLButtonElement | undefined;
@@ -44,13 +46,15 @@ type PopoverStore = {
  * @default id = createUniqueId(), offset = 8, placement = "bottom-start"
  */
 function createPopover({
-  placement = "bottom-start",
-  id = createUniqueId(),
   offset = 8,
+  popoverId = createUniqueId(),
+  placement = "bottom-start",
+  triggerId = createUniqueId(),
 }: CreatePopoverOptions = {}) {
   const [store, setStore] = createStore<PopoverStore>({
-    id,
     offset,
+    popoverId,
+    triggerId,
     placement,
     state: "closed",
     contentRef: undefined,
@@ -58,12 +62,13 @@ function createPopover({
   });
 
   return {
-    _offset: () => store.offset,
+    getOffset: () => store.offset,
     placement: () => store.placement,
     show: () => store.contentRef?.showPopover(),
     hide: () => store.contentRef?.hidePopover(),
     toggle: () => store.contentRef?.togglePopover(),
-    popoverId: () => store.id,
+    popoverId: () => store.popoverId,
+    triggerId: () => store.triggerId,
     popoverState: () => store.state,
     contentRef: () => store.contentRef,
     triggerRef: () => store.triggerRef,
@@ -74,13 +79,13 @@ function createPopover({
 }
 
 interface PopoverRootProps extends ComponentProps<"div"> {
-  $popover: ReturnType<typeof createPopover>;
+  ctx: ReturnType<typeof createPopover>;
 }
 
 function Root(props: PopoverRootProps) {
-  const [, others] = splitProps(props, ["class", "$popover"]);
+  const [, others] = splitProps(props, ["class", "ctx"]);
   return (
-    <PopoverContext.Provider value={props.$popover}>
+    <PopoverContext.Provider value={props.ctx}>
       <div class={cn("relative", props.class)} {...others}>
         {props.children}
       </div>
@@ -90,7 +95,7 @@ function Root(props: PopoverRootProps) {
 
 function Trigger(props: ComponentProps<"button">) {
   const [, others] = splitProps(props, ["class", "popovertarget", "popovertargetaction", "ref"]);
-  const { popoverId, setTriggerRef } = usePopover();
+  const { popoverId, setTriggerRef, triggerId } = usePopover();
 
   return (
     <button
@@ -98,6 +103,7 @@ function Trigger(props: ComponentProps<"button">) {
       popovertargetaction="toggle"
       popovertarget={popoverId()}
       ref={setTriggerRef}
+      id={triggerId()}
       {...others}
     >
       {props.children}
@@ -110,8 +116,9 @@ function Trigger(props: ComponentProps<"button">) {
  */
 function Content(props: ComponentProps<"div">) {
   const {
-    _offset,
+    getOffset,
     popoverId,
+    triggerId,
     placement,
     contentRef,
     triggerRef,
@@ -126,7 +133,7 @@ function Content(props: ComponentProps<"div">) {
     if (contentRef() && triggerRef()) {
       const cleanUp = autoUpdate(triggerRef()!, contentRef()!, async function () {
         const { x, y } = await computePosition(triggerRef()!, contentRef()!, {
-          middleware: [flip(), offset(_offset()), shift()],
+          middleware: [flip(), offset(getOffset()), shift()],
           placement: placement(),
         });
         setPosition({ x, y });
@@ -140,13 +147,14 @@ function Content(props: ComponentProps<"div">) {
       ref={setContentRef}
       role="dialog"
       tabIndex={-1}
-      class="absolute m-0 p-0 transition-[opacity,transform] duration-200 data-[state=open]:translate-y-0 data-[state=closed]:-translate-y-1 data-[state=open]:scale-100 data-[state=closed]:scale-100"
+      class="absolute m-0 p-0 duration-300 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 transition-[transform,opacity]"
       style={{
         left: `${position().x}px`,
         top: `${position().y}px`,
       }}
       data-state={popoverState()}
       onToggle={handleToggle}
+      anchor={triggerId()}
       id={popoverId()}
       popover
     >

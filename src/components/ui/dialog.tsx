@@ -7,7 +7,7 @@ function Dialog(props: ComponentProps<"dialog">) {
   return (
     <dialog
       class={cn(
-        "text-md inset-0 w-[calc(100vw_-_3rem)] sm:w-2/3 translate-y-10 rounded-md opacity-0 transition-[opacity,transform] duration-300 backdrop:backdrop-blur-sm [&:not([open])]:pointer-events-none [&[open]]:translate-y-0 [&[open]]:opacity-100 grid max-w-lg gap-4 border bg-backgroundshadow-lg",
+        "text-md inset-0 w-[calc(100vw_-_3rem)] sm:w-2/3 translate-y-10 rounded-md opacity-0 transition-[opacity,transform] duration-300 backdrop:backdrop-blur-sm [&:not([open])]:pointer-events-none open:translate-y-0 open:opacity-100 grid max-w-lg gap-4 border bg-background shadow-lg",
         props.class
       )}
       onClick={(ev) => {
@@ -58,13 +58,7 @@ type CreateDialogReturnType = [
 
 function createDialog(): CreateDialogReturnType {
   const [ref, setRef] = createSignal<HTMLDialogElement>();
-  return [
-    setRef,
-    {
-      open: () => ref()?.showModal(),
-      close: () => ref()?.close(),
-    },
-  ];
+  return [setRef, { open: () => ref()?.showModal(), close: () => ref()?.close() }];
 }
 
 export { Dialog, DialogTitle, DialogFooter, DialogDescription, createDialog };

@@ -21,6 +21,7 @@ declare global {
     namespace JSX {
       interface HTMLAttributes<T> {
         popover?: "auto" | "manual" | true;
+        anchor?: string;
       }
       interface PopoverControlAttribute {
         popovertarget?: string;
