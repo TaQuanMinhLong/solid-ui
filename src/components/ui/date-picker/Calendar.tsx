@@ -109,7 +109,7 @@ type DayProps = {
 };
 
 function Day(props: DayProps) {
-  const { date, setDate, month, setMonth } = useDateContext();
+  const { date, setDate, month } = useDateContext();
   const isSelected = () => isSameDay(props.day, date());
   const isToday = () => isSameDay(props.day, new Date());
   const isOutside = () => !isSameMonth(props.day, month());

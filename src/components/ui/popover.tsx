@@ -147,7 +147,7 @@ function Content(props: ComponentProps<"div">) {
       ref={setContentRef}
       role="dialog"
       tabIndex={-1}
-      class="absolute m-0 p-0 duration-300 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 transition-[transform,opacity]"
+      class="absolute m-0 p-0 duration-200 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 transition-[transform,opacity]"
       style={{
         left: `${position().x}px`,
         top: `${position().y}px`,
