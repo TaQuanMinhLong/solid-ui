@@ -67,7 +67,7 @@ function createPopover({
     popoverState: () => store.state,
     contentRef: () => store.contentRef,
     triggerRef: () => store.triggerRef,
-    handleToggle: (e: ToggleEvent) => setStore("state", e.newState),
+    handleToggle: (e: ToggleEvent) => setStore("state", e.newState as PopoverState),
     setContentRef: (ref: HTMLDivElement | undefined) => setStore("contentRef", ref),
     setTriggerRef: (ref: HTMLButtonElement | undefined) => setStore("triggerRef", ref),
   };
