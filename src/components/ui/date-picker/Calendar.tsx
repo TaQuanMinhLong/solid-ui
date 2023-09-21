@@ -109,8 +109,7 @@ type DayProps = {
 };
 
 function Day(props: DayProps) {
-  const { date, setDate, month } = useDateContext();
-
+  const { date, setDate, month, setMonth } = useDateContext();
   const isSelected = () => isSameDay(props.day, date());
   const isToday = () => isSameDay(props.day, new Date());
   const isOutside = () => !isSameMonth(props.day, month());
@@ -121,9 +120,7 @@ function Day(props: DayProps) {
       role="presentation"
     >
       <Button
-        onClick={() => {
-          setDate(props.day);
-        }}
+        onClick={() => setDate(props.day)}
         aria-selected={isSelected() || undefined}
         variant="ghost"
         class={cn(
