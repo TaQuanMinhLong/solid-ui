@@ -1,10 +1,10 @@
 import type { Accessor, Setter } from "solid-js";
-import { DateProvider, WEEKDAYS, useDateContext } from "./DateProvider";
-import { IconChevron } from "~/components/icons";
-import { createUncontrolledSignal } from "~/hooks";
-import { For, createSignal } from "solid-js";
-import { Button } from "~/components/ui/button";
 import { format, isSameDay, isSameMonth, isWeekend } from "date-fns";
+import { DateProvider, WEEKDAYS, useDateContext } from "./DateProvider";
+import { createUncontrolled } from "~/hooks";
+import { For, createSignal } from "solid-js";
+import { IconChevron } from "~/components/icons";
+import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/styles";
 
 interface CalendarProps {
@@ -14,7 +14,7 @@ interface CalendarProps {
 }
 
 function Calendar(props: CalendarProps) {
-  const [date, setDate] = createUncontrolledSignal({
+  const [date, setDate] = createUncontrolled({
     defaultValue: props.defaultDate,
     finalValue: new Date(),
     getter: props.date,

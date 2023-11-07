@@ -1,6 +1,6 @@
 import type { Accessor, Setter } from "solid-js";
 import { Popover, createPopover } from "~/components/ui/popover";
-import { createUncontrolledSignal } from "~/hooks";
+import { createUncontrolled } from "~/hooks";
 import { Calendar } from ".";
 import { format } from "date-fns";
 import { Label } from "~/components/ui/label";
@@ -13,7 +13,7 @@ type DatePickerProps = {
 
 export function DatePicker(props: DatePickerProps) {
   const popover = createPopover({ triggerId: "date-input" });
-  const [date, setDate] = createUncontrolledSignal({
+  const [date, setDate] = createUncontrolled({
     defaultValue: props.defaultDate,
     finalValue: new Date(),
     getter: props.date,

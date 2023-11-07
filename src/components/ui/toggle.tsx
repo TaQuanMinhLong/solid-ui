@@ -1,5 +1,5 @@
 import type { Accessor, ComponentProps, Setter } from "solid-js";
-import { createUncontrolledSignal } from "~/hooks";
+import { createUncontrolled } from "~/hooks";
 import { splitProps } from "solid-js";
 import { cn } from "~/lib/styles";
 
@@ -16,7 +16,7 @@ export function Toggle(props: ToggleProps) {
     "onCheckedChange",
     "defaultChecked",
   ]);
-  const [isChecked, setIsChecked] = createUncontrolledSignal({
+  const [isChecked, setIsChecked] = createUncontrolled({
     defaultValue: defaultChecked,
     finalValue: false,
     setter: onCheckedChange,

@@ -1,6 +1,6 @@
 import { createSignal, type Accessor, type Setter } from "solid-js";
 
-type CreateUncontrolledSignalOptions<T> = {
+type CreateUncontrolledOptions<T> = {
   getter?: Accessor<T>;
   setter?: Setter<T>;
   defaultValue?: T;
@@ -9,12 +9,12 @@ type CreateUncontrolledSignalOptions<T> = {
 
 type UncontrolledSignal<T> = [Accessor<T>, Setter<T>];
 
-export function createUncontrolledSignal<T>({
+export function createUncontrolled<T>({
   defaultValue,
   finalValue,
   setter,
   getter,
-}: CreateUncontrolledSignalOptions<T>): UncontrolledSignal<T> {
+}: CreateUncontrolledOptions<T>): UncontrolledSignal<T> {
   const [internalGetter, internalSetter] = createSignal<T>(
     typeof defaultValue !== "undefined" ? defaultValue : finalValue
   );
