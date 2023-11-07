@@ -95,13 +95,15 @@ function Root(props: PopoverRootProps) {
 
 function Trigger(props: ComponentProps<"button">) {
   const [, others] = splitProps(props, ["class", "popovertarget", "popovertargetaction", "ref"]);
-  const { popoverId, setTriggerRef, triggerId } = usePopover();
+  const { popoverId, setTriggerRef, triggerId, popoverState } = usePopover();
 
   return (
     <button
+      aria-expanded={popoverState() === "open"}
       class={cn("relative", props.class)}
       popovertargetaction="toggle"
       popovertarget={popoverId()}
+      role="combobox"
       ref={setTriggerRef}
       id={triggerId()}
       {...others}
@@ -115,6 +117,8 @@ function Trigger(props: ComponentProps<"button">) {
  * Set offset by using transform: translate
  */
 function Content(props: ComponentProps<"div">) {
+  const [, others] = splitProps(props, ["class", "id"]);
+
   const {
     getOffset,
     popoverId,
@@ -147,7 +151,10 @@ function Content(props: ComponentProps<"div">) {
       ref={setContentRef}
       role="dialog"
       tabIndex={-1}
-      class="absolute m-0 p-0 duration-200 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 transition-[transform,opacity]"
+      class={cn(
+        "absolute m-0 p-0 duration-200 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 transition-[transform,opacity] bg-background shadow-md rounded-md",
+        props.class
+      )}
       style={{
         left: `${position().x}px`,
         top: `${position().y}px`,
@@ -156,11 +163,11 @@ function Content(props: ComponentProps<"div">) {
       onToggle={handleToggle}
       anchor={triggerId()}
       id={popoverId()}
+      tabindex={0}
       popover
+      {...others}
     >
-      <div {...props} data-state={popoverState()}>
-        {props.children}
-      </div>
+      {props.children}
     </div>
   );
 }
