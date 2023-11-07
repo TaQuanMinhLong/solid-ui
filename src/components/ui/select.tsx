@@ -1,4 +1,5 @@
-import { createSignal, createEffect, onCleanup, Accessor, Setter, splitProps, For } from "solid-js";
+import type { Accessor, Setter } from "solid-js";
+import { createSignal, createEffect, onCleanup, splitProps, For } from "solid-js";
 import { Popover, createPopover } from "./popover";
 import { Button, buttonVariants } from "./button";
 import { createUncontrolled } from "~/hooks";
