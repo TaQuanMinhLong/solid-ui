@@ -12,6 +12,7 @@ import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/d
 import { createStore } from "solid-js/store";
 import { createSignal } from "solid-js";
 import { cn } from "~/lib/styles";
+import "./popover.css";
 
 type PopoverState = "open" | "closed";
 
@@ -46,7 +47,7 @@ type PopoverStore = {
  * @default id = createUniqueId(), offset = 8, placement = "bottom-start"
  */
 function createPopover({
-  offset = 8,
+  offset = 4,
   popoverId = createUniqueId(),
   placement = "bottom-start",
   triggerId = createUniqueId(),
@@ -103,9 +104,9 @@ function Trigger(props: ComponentProps<"button">) {
       class={cn("relative", props.class)}
       popovertargetaction="toggle"
       popovertarget={popoverId()}
-      role="combobox"
       ref={setTriggerRef}
       id={triggerId()}
+      role="combobox"
       {...others}
     >
       {props.children}
@@ -127,7 +128,6 @@ function Content(props: ComponentProps<"div">) {
     contentRef,
     triggerRef,
     handleToggle,
-    popoverState,
     setContentRef,
   } = usePopover();
 
@@ -142,7 +142,7 @@ function Content(props: ComponentProps<"div">) {
         });
         setPosition({ x, y });
       });
-      onCleanup(() => cleanUp());
+      onCleanup(cleanUp);
     }
   });
 
@@ -151,15 +151,8 @@ function Content(props: ComponentProps<"div">) {
       ref={setContentRef}
       role="dialog"
       tabIndex={-1}
-      class={cn(
-        "absolute m-0 p-0 duration-200 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 transition-[transform,opacity] bg-background shadow-md rounded-md",
-        props.class
-      )}
-      style={{
-        left: `${position().x}px`,
-        top: `${position().y}px`,
-      }}
-      data-state={popoverState()}
+      class={cn("absolute m-0 p-0 duration-200 bg-background shadow-md rounded-md", props.class)}
+      style={{ left: `${position().x}px`, top: `${position().y}px` }}
       onToggle={handleToggle}
       anchor={triggerId()}
       id={popoverId()}
@@ -172,6 +165,11 @@ function Content(props: ComponentProps<"div">) {
   );
 }
 
+/**
+ * Implementation of Popover component using Native Popover API
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Popover_API
+ */
 export const Popover = {
   Root,
   Content,

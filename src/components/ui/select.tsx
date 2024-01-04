@@ -78,7 +78,10 @@ export function SelectInput(props: SelectProps) {
           {(item) => (
             <Button
               class="w-full focus:bg-accent focus:text-accent-foreground focus-visible:ring-0"
-              onClick={() => setValue(typeof item === "string" ? item : item.value)}
+              onClick={() => {
+                setValue(typeof item === "string" ? item : item.value);
+                popover.hide();
+              }}
               variant="ghost"
               type="button"
             >

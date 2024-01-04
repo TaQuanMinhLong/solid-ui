@@ -10,7 +10,7 @@ export interface DialogProp extends ComponentProps<"dialog"> {
 /**
  * Implementation of native HTML dialog component for solid-js.
  *
- * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
  */
 function Dialog(props: DialogProp) {
   const [{ closeOnClickOutside = true }, others] = splitProps(props, [
