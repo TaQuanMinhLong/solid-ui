@@ -131,8 +131,8 @@ function Content(props: ComponentProps<"div">) {
     setContentRef,
   } = usePopover();
 
+  // Currently CSS Anchor Positioning is not stable yet, so we need to use this workaround from @floating-ui/dom
   const [position, setPosition] = createSignal({ x: 0, y: 0 });
-
   createEffect(() => {
     if (contentRef() && triggerRef()) {
       const cleanUp = autoUpdate(triggerRef()!, contentRef()!, async function () {
