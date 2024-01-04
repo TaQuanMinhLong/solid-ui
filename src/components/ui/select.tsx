@@ -1,5 +1,5 @@
 import type { Accessor, Setter } from "solid-js";
-import { createSignal, createEffect, onCleanup, splitProps, For } from "solid-js";
+import { createSignal, createEffect, onCleanup, splitProps, For, Show } from "solid-js";
 import { Popover, createPopover } from "./popover";
 import { Button, buttonVariants } from "./button";
 import { createUncontrolled } from "~/hooks";
@@ -12,14 +12,19 @@ type SelectProps = {
   value?: Accessor<string>;
   onChange?: Setter<string>;
   defaultValue?: string;
+  label?: string;
   id?: string;
 };
 
 /**
  * Modify your own version of this component to make muti-select, combobox, autosuggest, ...
  */
-export function Select(props: SelectProps) {
-  const [{ defaultValue, options }] = splitProps(props, ["defaultValue", "options"]);
+export function SelectInput(props: SelectProps) {
+  const [{ defaultValue, options, label }] = splitProps(props, [
+    "defaultValue",
+    "options",
+    "label",
+  ]);
   const [value, setValue] = createUncontrolled({
     getter: props.value,
     setter: props.onChange,
@@ -58,7 +63,9 @@ export function Select(props: SelectProps) {
   return (
     <Popover.Root ctx={popover}>
       <div class="flex flex-col gap-1">
-        <Label for={props.id || popover.triggerId()}>Select grocery</Label>
+        <Show when={!!label}>
+          <Label for={props.id || popover.triggerId()}>{label}</Label>
+        </Show>
         <Popover.Trigger
           class={buttonVariants({ variant: "outline", class: "w-[200px]" })}
           id={props.id || popover.triggerId()}
