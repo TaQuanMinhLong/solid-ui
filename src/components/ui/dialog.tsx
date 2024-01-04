@@ -1,22 +1,37 @@
 import type { ComponentProps, Setter } from "solid-js";
 import { createSignal, splitProps } from "solid-js";
 import { cn } from "~/lib/styles";
+import "./dialog.css";
 
-function Dialog(props: ComponentProps<"dialog">) {
-  const [, others] = splitProps(props, ["class"]);
+export interface DialogProp extends ComponentProps<"dialog"> {
+  closeOnClickOutside?: boolean;
+}
+
+/**
+ * Implementation of native HTML dialog component for solid-js.
+ *
+ * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
+ */
+function Dialog(props: DialogProp) {
+  const [{ closeOnClickOutside = true }, others] = splitProps(props, [
+    "class",
+    "closeOnClickOutside",
+  ]);
   return (
     <dialog
       class={cn(
-        "text-md inset-0 w-[calc(100vw_-_3rem)] sm:w-2/3 translate-y-10 rounded-md opacity-0 transition-[opacity,transform] duration-300 backdrop:backdrop-blur-sm [&:not([open])]:pointer-events-none open:translate-y-0 open:opacity-100 grid max-w-lg gap-4 border bg-background shadow-lg",
+        "text-md w-screen mb-0 sm:m-auto p-6 sm:w-2/3 rounded-md backdrop:backdrop-blur-sm [&:not([open])]:pointer-events-none grid max-w-lg gap-6 border bg-background shadow-lg",
         props.class
       )}
-      onClick={(ev) => {
-        const target = ev.target as HTMLDialogElement;
-        if (target.nodeName === "DIALOG") target.close();
+      onClick={function (ev) {
+        if (closeOnClickOutside) {
+          const target = ev.target as HTMLDialogElement;
+          if (target.nodeName === "DIALOG") target.close();
+        }
       }}
       {...others}
     >
-      <div class="p-6">{props.children}</div>
+      {props.children}
     </dialog>
   );
 }
