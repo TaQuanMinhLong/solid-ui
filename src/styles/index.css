@@ -1,3 +1,6 @@
+@import "./dialog.css";
+@import "./popover.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

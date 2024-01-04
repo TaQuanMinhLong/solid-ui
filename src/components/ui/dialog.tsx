@@ -1,7 +1,6 @@
 import type { ComponentProps, Setter } from "solid-js";
 import { createSignal, splitProps } from "solid-js";
 import { cn } from "~/lib/styles";
-import "./dialog.css";
 
 export interface DialogProp extends ComponentProps<"dialog"> {
   closeOnClickOutside?: boolean;
