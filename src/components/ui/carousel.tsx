@@ -1,6 +1,6 @@
 import type { Accessor, ComponentProps } from "solid-js";
 import { createContext, createMemo, createSignal, splitProps, useContext } from "solid-js";
-import { cn } from "~/lib/styles";
+import { cn } from "~/styles";
 
 /*
 Add this to your css file before using the component

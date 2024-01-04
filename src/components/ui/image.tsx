@@ -1,6 +1,6 @@
 import type { ComponentProps, JSXElement } from "solid-js";
 import { Match, Switch, createSignal, onMount, splitProps } from "solid-js";
-import { cn } from "~/lib/styles";
+import { cn } from "~/styles";
 
 interface ImageProps extends ComponentProps<"img"> {
   fallbackWidth?: number;

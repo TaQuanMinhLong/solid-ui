@@ -5,7 +5,7 @@ import { createUncontrolled } from "~/hooks";
 import { For, createSignal } from "solid-js";
 import { IconChevron } from "~/components/icons";
 import { Button } from "~/components/ui/button";
-import { cn } from "~/lib/styles";
+import { cn } from "~/styles";
 
 interface CalendarProps {
   date?: Accessor<Date>;

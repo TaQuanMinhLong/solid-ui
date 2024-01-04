@@ -2,7 +2,7 @@ import type { ComponentProps } from "solid-js";
 import type { VariantProps } from "class-variance-authority";
 import { splitProps } from "solid-js";
 import { cva } from "class-variance-authority";
-import { cn } from "~/lib/styles";
+import { cn } from "~/styles";
 
 export interface ButtonProps
   extends ComponentProps<"button">,

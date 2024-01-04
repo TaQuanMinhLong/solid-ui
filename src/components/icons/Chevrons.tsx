@@ -1,6 +1,6 @@
 import type { ComponentProps } from "solid-js";
 import { splitProps } from "solid-js";
-import { cn } from "~/lib/styles";
+import { cn } from "~/styles";
 
 /**
  * Chevron Left as Base Component

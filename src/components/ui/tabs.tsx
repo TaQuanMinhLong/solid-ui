@@ -1,6 +1,6 @@
 import type { Component, ComponentProps, JSXElement } from "solid-js";
 import { createSignal, children, For, splitProps, createMemo } from "solid-js";
-import { cn } from "~/lib/styles";
+import { cn } from "~/styles";
 
 interface TabProps extends ComponentProps<"button"> {
   title: string;

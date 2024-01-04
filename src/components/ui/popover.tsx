@@ -11,7 +11,7 @@ import {
 import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
 import { createStore } from "solid-js/store";
 import { createSignal } from "solid-js";
-import { cn } from "~/lib/styles";
+import { cn } from "~/styles";
 
 type PopoverState = "open" | "closed";
 

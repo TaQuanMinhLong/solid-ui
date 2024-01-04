@@ -1,7 +1,7 @@
 import type { Accessor, ComponentProps, Setter } from "solid-js";
 import { createUncontrolled } from "~/hooks";
 import { splitProps } from "solid-js";
-import { cn } from "~/lib/styles";
+import { cn } from "~/styles";
 
 interface ToggleProps extends Omit<ComponentProps<"button">, "onClick"> {
   onCheckedChange?: Setter<boolean>;

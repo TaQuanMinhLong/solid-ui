@@ -2,7 +2,7 @@ import type { ComponentProps } from "solid-js";
 import type { VariantProps } from "class-variance-authority";
 import { splitProps } from "solid-js";
 import { cva } from "class-variance-authority";
-import { cn } from "~/lib/styles";
+import { cn } from "~/styles";
 
 export const alertVariants = cva(
   "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
